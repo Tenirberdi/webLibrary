@@ -24,3 +24,11 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<Taken> takenBooks;
 }
+//
+//    public void Book(long id, String name , String author){
+//        this.id = id;
+//        this.name = name;
+//        this.author = author;
+//        this.inLibrary = true;
+//    }
+//}

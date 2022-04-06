@@ -19,7 +19,15 @@ public class User {
     private String fullName;
     private String phoneNumber;
     private String studentGroup;
+    private String login;
+    private String password;
+    private boolean enabled;
 
     @OneToMany(mappedBy = "user")
     private List<Taken> takenBooks;
+
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private Role role_id;
+
 }
