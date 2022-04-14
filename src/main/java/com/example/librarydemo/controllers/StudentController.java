@@ -1,11 +1,12 @@
 package com.example.librarydemo.controllers;
 
-import com.example.librarydemo.JavaModels.TakenBooks;
-import com.example.librarydemo.JavaModels.TakenBooksHistory;
+import com.example.librarydemo.DTO.TakenBooks;
+import com.example.librarydemo.DTO.TakenBooksHistory;
 import com.example.librarydemo.services.TakenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ public class StudentController {
 
     @GetMapping("/takenBooksHistory")
     public ResponseEntity<List<TakenBooksHistory>> getTakenBooksHistory(){
+
         return ResponseEntity.ok(takenService.getTakenBooksHistory(1));
     }
 

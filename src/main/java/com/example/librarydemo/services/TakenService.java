@@ -1,13 +1,13 @@
 package com.example.librarydemo.services;
 
-import com.example.librarydemo.JavaModels.CommonFunc;
-import com.example.librarydemo.JavaModels.TakenBooks;
-import com.example.librarydemo.JavaModels.TakenBooksForLibrarian;
-import com.example.librarydemo.JavaModels.TakenBooksHistory;
+import com.example.librarydemo.Exceptions.CustomException;
+import com.example.librarydemo.DTO.*;
 import com.example.librarydemo.models.Book;
 import com.example.librarydemo.models.Taken;
+import com.example.librarydemo.models.User;
 import com.example.librarydemo.repository.BookRepository;
 import com.example.librarydemo.repository.TakenRepository;
+import com.example.librarydemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,9 @@ public class TakenService {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
 
     public List<TakenBooks> getTakenList(long student_id){
@@ -38,16 +41,25 @@ public class TakenService {
         return takenRepository.getTakenBooksForLibrarian();
     }
 
-    public void giveBook(Taken book) throws ParseException {
-        Book b = bookRepository.findById(book.getBook().getId()).get();
+    public void giveBook(TakenDTO book) throws ParseException, CustomException {
 
+        Book b = bookRepository.findById(book.getBook_id()).get();
+        User u = userRepository.findById(book.getStudent_id()).get();
+
+        if(!(b.isInLibrary())){
+            throw new CustomException("The book is already taken");
+        }
         b.setInLibrary(false);
 
         bookRepository.save(b);
 
         book.setStart_date(CommonFunc.getCurrentDate());
 
-        takenRepository.save(book);
+        Taken taken = new Taken();
+        taken.setStart_date(book.getStart_date());
+        taken.setUser(u);
+        taken.setBook(b);
+        takenRepository.save(taken);
 
     }
 }

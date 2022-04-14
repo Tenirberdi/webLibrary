@@ -1,14 +1,10 @@
-package com.example.librarydemo.JavaModels;
+package com.example.librarydemo.DTO;
 
-import com.example.librarydemo.models.User;
-import com.example.librarydemo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.util.List;
 
 public class CommonFunc {
 

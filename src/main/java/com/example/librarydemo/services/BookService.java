@@ -1,9 +1,7 @@
 package com.example.librarydemo.services;
 
-import com.example.librarydemo.JavaModels.TakenBooksForLibrarian;
 import com.example.librarydemo.models.Book;
 import com.example.librarydemo.repository.BookRepository;
-import com.example.librarydemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +11,6 @@ public class BookService {
     @Autowired
     BookRepository bookRepository;
 
-//    private final BookRepository bookRepository;
-//    public BookService(BookRepository bookRepository) {
-//        this.bookRepository = bookRepository;
-//    }
 
     public List<Book> BookList(){
         return (List<Book>)bookRepository.findAll();

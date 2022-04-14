@@ -17,9 +17,6 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public UserService(UserRepository UserRepository) {
-        this.UserRepository = UserRepository;
-    }
 
     public List<User> UserList(){
         return (List<User>)UserRepository.findAll();
