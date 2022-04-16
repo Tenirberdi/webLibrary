@@ -8,18 +8,21 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
 @Entity
-@Table(name="role")
+@Table(name="category")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String role;
+    private String category;
 
-    @OneToMany(mappedBy = "roleId")
-    private List<User> users;
+    @OneToMany(mappedBy = "category")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "category")
+    private List<EBook> books1;
 
 }

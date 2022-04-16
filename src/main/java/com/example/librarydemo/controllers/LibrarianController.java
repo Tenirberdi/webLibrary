@@ -40,7 +40,7 @@ public class LibrarianController {
     }
 
     @GetMapping("/book/{book_id}")
-    public ResponseEntity<Book> getBook(@PathVariable("book_id") Long id){
+    public ResponseEntity<Book> getBook(@PathVariable("book_id") int id){
 
         Book book = bookService.findBookById(id);
 
@@ -65,7 +65,11 @@ public class LibrarianController {
 
     @PostMapping("/giveBook")
     public ResponseEntity giveBook(@RequestBody TakenDTO book) throws ParseException, CustomException {
-        takenService.giveBook(book);
+        int code = takenService.giveBook(book);
+
+        if(code == 404){
+            return (ResponseEntity) ResponseEntity.notFound();
+        }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -10,37 +10,26 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="book")
+@Table(name="e_book")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book {
+public class EBook {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String author;
-    private boolean inLibrary;
     private String description;
     private String photo;
     private int releaseYear;
-
-
-    @OneToMany(mappedBy = "book")
-    private List<Taken> takenBooks;
-
-    @OneToMany(mappedBy = "bookId")
-    private List<StatisticBook> statisticBooks;
+    private String link;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn
     private Category category;
+
+    @OneToMany(mappedBy = "eBookId")
+    private List<StatisticEBook> statisticEBooks;
 }
-//
-//    public void Book(long id, String name , String author){
-//        this.id = id;
-//        this.name = name;
-//        this.author = author;
-//        this.inLibrary = true;
-//    }
-//}

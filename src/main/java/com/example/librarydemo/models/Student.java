@@ -6,34 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
 
-@Data
 @Entity
-@Table(name="taken")
+@Table(name="student")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Taken {
+public class Student {
+    private String group;
+    private String address;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date startDate;
-    private Date endDate;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="student_id")
     private User studentId;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="book_id")
-    private Book book;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="librarian_id")
-    private User librarianId;
-
 }

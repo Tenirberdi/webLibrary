@@ -16,21 +16,29 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String fullName;
     private String phoneNumber;
-    private String studentGroup;
     private String login;
     private String password;
     private boolean enabled;
+    private String email;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "studentId")
     private List<Taken> takenBooks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "studentId")
+    private List<Student> student;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "librarianId")
+    private List<Taken> takenBooks1;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="role_id")
-    private Role role_id;
+    private Role roleId;
 
 }

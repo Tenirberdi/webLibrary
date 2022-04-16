@@ -8,9 +8,10 @@ import java.sql.Date;
 public interface TakenBooksHistory {
 
     long getId();
-    long getBook_id();
-    String getBook_name();
-    String getBook_author();
-    Date getStart_date();
-    Date getEnd_date();
+    long getBookId();
+    String getBookName();
+    String getBookAuthor();
+    Date getStartDate();
+    Date getEndDate();
+    String librarianName();
 }

@@ -1,25 +1,26 @@
 package com.example.librarydemo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Data
 @Entity
-@Table(name="role")
+@Table(name="statistic_e_book")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class StatisticEBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String role;
+    private int downloadedQuantity;
+    private int viewedQuantity;
 
-    @OneToMany(mappedBy = "roleId")
-    private List<User> users;
-
+    @JsonIgnore
+    @ManyToOne
+    private EBook eBookId;
 }

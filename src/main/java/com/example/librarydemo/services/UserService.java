@@ -28,26 +28,26 @@ public class UserService {
 
     public void creatAdmin(User admin){
         admin.setEnabled(true);
-        admin.setRole_id(roleRepository.findById(3L).get());
+        admin.setRoleId(roleRepository.findById(3).get());
         UserRepository.save(admin);
     }
 
     public void creatLibrarian(User librarian){
         librarian.setEnabled(true);
-        librarian.setRole_id(roleRepository.findById(2L).get());
+        librarian.setRoleId(roleRepository.findById(2).get());
         UserRepository.save(librarian);
     }
 
     public void creatStudent(User student){
         student.setEnabled(true);
-        student.setRole_id(roleRepository.findById(1L).get());
+        student.setRoleId(roleRepository.findById(1).get());
         UserRepository.save(student);
     }
 
-    public User findUserById(Long id){
+    public User findUserById(int id){
         return UserRepository.findById(id).get();
     }
-    public void deleteUser(Long id){
+    public void deleteUser(int id){
         UserRepository.deleteById(id);
     }
 }

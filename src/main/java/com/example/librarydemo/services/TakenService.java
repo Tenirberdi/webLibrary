@@ -27,12 +27,12 @@ public class TakenService {
     UserRepository userRepository;
 
 
-    public List<TakenBooks> getTakenList(long student_id){
+    public List<TakenBooks> getTakenList(int student_id){
         List<TakenBooks> takenList = (List<TakenBooks>) takenRepository.getTakenBooks(student_id);
         return takenList;
     }
 
-    public List<TakenBooksHistory> getTakenBooksHistory(long student_id){
+    public List<TakenBooksHistory> getTakenBooksHistory(int student_id){
         List<TakenBooksHistory> booksHistories = (List<TakenBooksHistory>) takenRepository.getTakenBooksHistory(student_id);
         return booksHistories;
     }
@@ -41,25 +41,49 @@ public class TakenService {
         return takenRepository.getTakenBooksForLibrarian();
     }
 
-    public void giveBook(TakenDTO book) throws ParseException, CustomException {
+    public int giveBook(TakenDTO book) throws ParseException, CustomException {
 
-        Book b = bookRepository.findById(book.getBook_id()).get();
-        User u = userRepository.findById(book.getStudent_id()).get();
+        int bookId;
+        int studentId;
+
+        try {
+            studentId = Integer.parseInt(book.getStudentInfo());
+        } catch (NumberFormatException nfe) {
+            studentId =  userRepository.getStudent(book.getStudentInfo()).getId();
+        }
+
+        try {
+            bookId = Integer.parseInt(book.getBookInfo());
+        } catch (NumberFormatException nfe) {
+            bookId =  userRepository.getStudent(book.getStudentInfo()).getId();
+        }
+
+
+        if(bookRepository.findById(bookId).get() == null){
+            return 404;
+        }
+        if(userRepository.findById(studentId).get() == null){
+            return 404;
+        }
+
+        Book b = bookRepository.findById(bookId).get();
+        User u = userRepository.findById(studentId).get();
 
         if(!(b.isInLibrary())){
-            throw new CustomException("The book is already taken");
+            return 404;
         }
         b.setInLibrary(false);
 
         bookRepository.save(b);
 
-        book.setStart_date(CommonFunc.getCurrentDate());
+        book.setStartDate(CommonFunc.getCurrentDate());
 
         Taken taken = new Taken();
-        taken.setStart_date(book.getStart_date());
-        taken.setUser(u);
+        taken.setStartDate(book.getStartDate());
+        taken.setStudentId(u);
         taken.setBook(b);
         takenRepository.save(taken);
 
+        return 200;
     }
 }

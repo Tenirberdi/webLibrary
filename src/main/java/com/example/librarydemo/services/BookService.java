@@ -27,10 +27,10 @@ public class BookService {
     }
 
 
-    public Book findBookById(Long id){
+    public Book findBookById(int id){
         return bookRepository.findById(id).get();
     }
-    public void deleteBook(Long id){
+    public void deleteBook(int id){
         bookRepository.deleteById(id);
     }
 
