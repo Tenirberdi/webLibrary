@@ -20,7 +20,6 @@ public class StatisticEBook {
     private int downloadedQuantity;
     private int viewedQuantity;
 
-    @JsonIgnore
     @ManyToOne
     private EBook eBookId;
 }

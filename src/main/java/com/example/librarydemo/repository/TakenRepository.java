@@ -20,5 +20,8 @@ public interface TakenRepository extends CrudRepository<Taken, Integer> {
     @Query(value = "select t.id as id, t.book_id as bookId, t.student_id as studentId, s.full_name as studentName, l.full_name as librarianName, b.name as bookName, b.author as bookAuthor, t.start_date as startDate from taken t join book b on t.book_id = b.id join usr as s on t.student_id = s.id join usr as l on t.librarian_id = l.id where t.end_date IS NULL;" , nativeQuery = true)
     List<TakenBooksForLibrarian> getTakenBooksForLibrarian();
 
+    @Query(value="SELECT * FROM `taken` WHERE `student_id` = ?1 and `book_id` = ?2", nativeQuery = true)
+    Taken getTakenBook(int studentId, int bookId);
+
 
 }

@@ -13,14 +13,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Student {
-    private String group;
-    private String address;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String grop;
+    private String address;
 
-    @JsonIgnore
+
+
     @ManyToOne
     @JoinColumn(name="student_id")
     private User studentId;

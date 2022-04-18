@@ -11,5 +11,8 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     @Query(value="SELECT * from book where inLibrary = 1", nativeQuery = true)
     List<Book> getInLibraryBooks();
 
+    @Query(value="SELECT * FROM `book` WHERE `name`= ?;", nativeQuery = true)
+    Book getBook(String name);
+
 
 }

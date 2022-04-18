@@ -25,11 +25,12 @@ public class EBook {
     private int releaseYear;
     private String link;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn
     private Category category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "eBookId")
     private List<StatisticEBook> statisticEBooks;
 }

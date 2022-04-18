@@ -25,13 +25,15 @@ public class Book {
     private int releaseYear;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book")
     private List<Taken> takenBooks;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "bookId")
     private List<StatisticBook> statisticBooks;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn
     private Category category;

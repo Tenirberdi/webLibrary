@@ -1,6 +1,7 @@
 package com.example.librarydemo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,11 @@ public class Category {
     private int id;
     private String category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Book> books;
+
+    @JsonIgnore
 
     @OneToMany(mappedBy = "category")
     private List<EBook> books1;

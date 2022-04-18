@@ -9,6 +9,6 @@ public interface TakenBooks {
     String getBookName();
     String getBookAuthor();
     Date getStartDate();
-    String librarianName();
+    String getLibrarianName();
 
 }

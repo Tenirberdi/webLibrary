@@ -18,7 +18,6 @@ public class StatisticBook {
     private int id;
     private int takenQuantity;
 
-    @JsonIgnore
     @ManyToOne
     private Book bookId;
 }

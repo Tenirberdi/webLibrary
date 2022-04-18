@@ -1,6 +1,7 @@
 package com.example.librarydemo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Role {
     private int id;
     private String role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roleId")
     private List<User> users;
 

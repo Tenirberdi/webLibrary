@@ -36,7 +36,6 @@ public class User {
     @OneToMany(mappedBy = "librarianId")
     private List<Taken> takenBooks1;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="role_id")
     private Role roleId;

@@ -1,11 +1,12 @@
 package com.example.librarydemo.controllers;
 
 
+import com.example.librarydemo.DTO.*;
 import com.example.librarydemo.Exceptions.CustomException;
-import com.example.librarydemo.DTO.TakenBooksForLibrarian;
-import com.example.librarydemo.DTO.TakenDTO;
-import com.example.librarydemo.models.Book;
-import com.example.librarydemo.models.User;
+import com.example.librarydemo.models.*;
+import com.example.librarydemo.repository.CategoryRepository;
+import com.example.librarydemo.repository.RoleRepository;
+import com.example.librarydemo.repository.StudentRepository;
 import com.example.librarydemo.services.BookService;
 import com.example.librarydemo.services.TakenService;
 import com.example.librarydemo.services.UserService;
@@ -30,16 +31,61 @@ public class LibrarianController {
     @Autowired
     private TakenService takenService;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
 
-    @PostMapping("/addBook")
-    public ResponseEntity addBook(@RequestBody Book book){
-        System.out.println("Adding Book");
+
+    @PostMapping("/addBook")  //ok
+    public ResponseEntity addBook(@RequestBody BookDTO bookDTO){
+        Category category = categoryRepository.getCategoryByName(bookDTO.getCategory());
+
+        Book book = new Book();
+
+        book.setId(bookDTO.getId());
+        book.setName(bookDTO.getName());
+        book.setAuthor(bookDTO.getAuthor());
+        book.setCategory(category);
+        book.setDescription(bookDTO.getDescription());
+        book.setPhoto(bookDTO.getPhoto());
+        book.setReleaseYear(bookDTO.getReleaseYear());
+
         bookService.creatBook(book);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/book/{book_id}")
+    @PostMapping("/editBook")
+    public ResponseEntity editBook(@RequestBody BookDTO bookDTO){
+        bookService.editBook(bookDTO);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+
+    }
+
+    @PostMapping("/editStudent")
+    public ResponseEntity editStudent(@RequestBody StudentDTO studentDTO){
+        userService.editStudent(studentDTO);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/student/{student_id}")    //ok
+    public ResponseEntity<StudentDTO> getBStudent(@PathVariable("student_id") int id){
+
+        StudentDTO studentDTO = userService.getStudent(id);
+
+        return ResponseEntity.ok(studentDTO);
+    }
+
+
+    @GetMapping("/book/{book_id}")    //ok
     public ResponseEntity<Book> getBook(@PathVariable("book_id") int id){
 
         Book book = bookService.findBookById(id);
@@ -47,35 +93,80 @@ public class LibrarianController {
         return ResponseEntity.ok(book);
     }
 
-    @PostMapping("/addStudent")
-    public ResponseEntity addStudent(@RequestBody User student){
-        userService.creatStudent(student);
+    @PostMapping("/addStudent")   //ok
+    public ResponseEntity addStudent(@RequestBody StudentDTO studentDTO){
+
+        Role role = roleRepository.getRoleByName(studentDTO.getRole());
+
+
+        User user = new User();
+
+        user.setEmail(studentDTO.getEmail());
+        user.setFullName(studentDTO.getFullName());
+        user.setLogin(studentDTO.getLogin());
+        user.setPassword(studentDTO.getPassword());
+        user.setPhoneNumber(studentDTO.getPhone());
+        user.setRoleId(role);
+
+        userService.creatStudent(user);
+
+        Student student = new Student();
+
+        student.setStudentId(user);
+        student.setAddress(studentDTO.getAddress());
+        student.setGrop(studentDTO.getGroup());
+
+        userService.addStudent(student);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/books")
+    @GetMapping("/books")  //ok
     public ResponseEntity<List<Book>> getBooks(){
         return ResponseEntity.ok(bookService.BookList());
     }
 
-    @GetMapping("/taken")
+    @GetMapping("/taken")   //ok
     public ResponseEntity<List<TakenBooksForLibrarian>> getTakenBooks(){
         return ResponseEntity.ok(takenService.getTakenBooksForLibrarian());
     }
 
-    @PostMapping("/giveBook")
+    @PostMapping("/giveBook")  //ok
     public ResponseEntity giveBook(@RequestBody TakenDTO book) throws ParseException, CustomException {
         int code = takenService.giveBook(book);
 
         if(code == 404){
-            return (ResponseEntity) ResponseEntity.notFound();
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/students")
-    public ResponseEntity<List<User>> getStudents(){
+    @GetMapping("/topBooks")
+    public ResponseEntity<List<StatisticBookDTO>> getTopBooks(){
+        return ResponseEntity.ok(takenService.getBookStatistic());
+    }
+
+    @GetMapping("/topEBooks")
+    public ResponseEntity<List<StatisticEBookDTO>> getTopEBooks(){
+        return ResponseEntity.ok(takenService.getEBookStatistic());
+    }
+
+
+
+    @GetMapping("/students")   //ok
+    public ResponseEntity<List<StudentsDTO>> getStudents(){
         return ResponseEntity.ok(userService.getStudents());
+    }
+
+
+    @PostMapping("/takeBook")
+    public ResponseEntity takeBook(@RequestBody TakenDTO book) throws ParseException, CustomException {
+        int code = takenService.takeBook(book);
+
+        if(code == 404){
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 

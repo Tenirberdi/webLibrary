@@ -13,5 +13,5 @@ public interface TakenBooksHistory {
     String getBookAuthor();
     Date getStartDate();
     Date getEndDate();
-    String librarianName();
+    String getLibrarianName();
 }
