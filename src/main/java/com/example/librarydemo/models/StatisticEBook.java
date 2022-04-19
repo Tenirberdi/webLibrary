@@ -21,5 +21,6 @@ public class StatisticEBook {
     private int viewedQuantity;
 
     @ManyToOne
+    @JoinColumn(name="e_book_id")
     private EBook eBookId;
 }

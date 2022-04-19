@@ -3,6 +3,7 @@ package com.example.librarydemo.services;
 import com.example.librarydemo.Exceptions.CustomException;
 import com.example.librarydemo.DTO.*;
 import com.example.librarydemo.models.Book;
+import com.example.librarydemo.models.StatisticBook;
 import com.example.librarydemo.models.Taken;
 import com.example.librarydemo.models.User;
 import com.example.librarydemo.repository.*;
@@ -38,6 +39,10 @@ public class TakenService {
     public List<TakenBooksHistory> getTakenBooksHistory(int student_id){
         List<TakenBooksHistory> booksHistories = (List<TakenBooksHistory>) takenRepository.getTakenBooksHistory(student_id);
         return booksHistories;
+    }
+
+    public  List<TakenHistoryDTO> getTakenHistory(){
+        return takenRepository.getTakenHistory();
     }
 
     public List<TakenBooksForLibrarian> getTakenBooksForLibrarian(){
@@ -90,6 +95,22 @@ public class TakenService {
         taken.setBook(b);
         takenRepository.save(taken);
 
+
+
+        if(statisticBookRepository.getStatisticBookByBookId(bookId) == null){
+            StatisticBook statisticBook = new StatisticBook();
+            statisticBook.setBookId(b);
+            statisticBook.setTakenQuantity(1);
+            statisticBookRepository.save(statisticBook);
+
+        }else{
+            StatisticBook statisticBook = statisticBookRepository.getStatisticBookByBookId(bookId);
+            statisticBook.setTakenQuantity(statisticBook.getTakenQuantity() + 1);
+            statisticBookRepository.save(statisticBook);
+        }
+
+
+
         return 200;
     }
 
@@ -111,10 +132,10 @@ public class TakenService {
         }
 
 
-        if(bookRepository.findById(bookId).get() == null){
+        if(!(bookRepository.findById(bookId).isPresent())){
             return 404;
         }
-        if(userRepository.findById(studentId).get() == null){
+        if(!(userRepository.findById(studentId).isPresent())){
             return 404;
         }
 
@@ -146,5 +167,9 @@ public class TakenService {
 
     public List<StatisticEBookDTO> getEBookStatistic(){
         return statisticEBookRepository.getTopBooks();
+    }
+
+    public List<StatisticEBookDTO> getViewedEBookStatistic(){
+        return statisticEBookRepository.getTopViewedBooks();
     }
 }

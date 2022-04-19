@@ -5,6 +5,7 @@ import com.example.librarydemo.models.Book;
 import com.example.librarydemo.models.Category;
 import com.example.librarydemo.repository.BookRepository;
 import com.example.librarydemo.repository.CategoryRepository;
+import com.example.librarydemo.repository.EBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class BookService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    EBookRepository eBookRepository;
 
 
     public List<Book> BookList(){
@@ -55,6 +59,14 @@ public class BookService {
         bookRepository.save(book);
 
 
+    }
+
+    public int getBookQuantity(){
+        return bookRepository.getBookQuantity();
+    }
+
+    public  int getEBookRepository(){
+        return eBookRepository.getEBookQuantity();
     }
 
 

@@ -19,5 +19,6 @@ public class StatisticBook {
     private int takenQuantity;
 
     @ManyToOne
+    @JoinColumn(name="book_id")
     private Book bookId;
 }

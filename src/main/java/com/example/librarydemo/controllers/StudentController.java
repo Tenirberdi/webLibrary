@@ -1,6 +1,7 @@
 package com.example.librarydemo.controllers;
 
 import com.example.librarydemo.DTO.StatisticBookDTO;
+import com.example.librarydemo.DTO.StatisticEBookDTO;
 import com.example.librarydemo.DTO.TakenBooks;
 import com.example.librarydemo.DTO.TakenBooksHistory;
 import com.example.librarydemo.services.TakenService;
@@ -34,6 +35,11 @@ public class StudentController {
     @GetMapping("/topBooks")
     public ResponseEntity<List<StatisticBookDTO>> getTopBooks(){
         return ResponseEntity.ok(takenService.getBookStatistic());
+    }
+
+    @GetMapping("/topEBooks")
+    public ResponseEntity<List<StatisticEBookDTO>> getTopEBooks(){
+        return ResponseEntity.ok(takenService.getEBookStatistic());
     }
 
 

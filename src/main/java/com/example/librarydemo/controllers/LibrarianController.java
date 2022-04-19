@@ -61,6 +61,11 @@ public class LibrarianController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping("/inLibraryBooks")
+    public ResponseEntity<List<Book>> getInLibraryBooks(){
+        return ResponseEntity.ok(bookService.InLibraryBookList());
+    }
+
     @PostMapping("/editBook")
     public ResponseEntity editBook(@RequestBody BookDTO bookDTO){
         bookService.editBook(bookDTO);
@@ -151,7 +156,16 @@ public class LibrarianController {
         return ResponseEntity.ok(takenService.getEBookStatistic());
     }
 
+    @GetMapping("/topViewedEBooks")
+    public ResponseEntity<List<StatisticEBookDTO>> getTopViewedEBooks(){
+        return ResponseEntity.ok(takenService.getViewedEBookStatistic());
+    }
 
+    @GetMapping("/deleteBook/{book_id}")
+    public ResponseEntity deleteBook(@PathVariable int book_id){
+        bookService.deleteBook(book_id);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
     @GetMapping("/students")   //ok
     public ResponseEntity<List<StudentsDTO>> getStudents(){
@@ -168,6 +182,22 @@ public class LibrarianController {
         }
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @GetMapping("/bookQuantity")
+    public ResponseEntity getBookQuantity(){
+        return ResponseEntity.ok(bookService.getBookQuantity());
+    }
+
+    @GetMapping("/eBookQuantity")
+    public ResponseEntity getEBookQuantity(){
+        return ResponseEntity.ok(bookService.getEBookRepository());
+    }
+
+    @GetMapping("/takenHistory")
+    public ResponseEntity getTakenHistory(){
+        return ResponseEntity.ok(takenService.getTakenHistory());
+    }
+
 
 
 
